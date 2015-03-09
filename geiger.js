@@ -44,7 +44,7 @@ Geiger.prototype.initAudio = function(geiger){
 		console.error('Web Audio API is not supported in this browser.');
 	}
 
-	geiger.webaudio = new AudioContext();
+	geiger.webaudio = new window.AudioContext();
 
 	// oscillator
 	var osc = geiger.webaudio.createOscillator();
