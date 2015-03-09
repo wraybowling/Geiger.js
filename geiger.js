@@ -19,21 +19,21 @@ Geiger.prototype.begin = function(){
 };
 
 Geiger.prototype.end = function(){
-	var time = Date.now();
+	var timer = Date.now();
 
-	frames ++;
-	if ( time > this.prevTime + 1000 / this.targetFPS ) {
-		this.fps = Math.round( ( this.frames * 1000 ) / ( time - this.prevTime ) );
+	this.frames++;
+	if ( timer > this.prevTime + 1000 / this.targetFPS ) {
+		this.fps = Math.round( ( this.frames * 1000 ) / ( timer - this.prevTime ) );
 
 		if(this.audioReady && this.fps < this.targetFPS){
 			this.click();
 		}
 
-		this.prevTime = time;
+		this.prevTime = timer;
 		this.frames = 0;
 	}
 
-	return time;
+	return timer;
 };
 
 Geiger.prototype.initAudio = function(geiger){
@@ -48,7 +48,7 @@ Geiger.prototype.initAudio = function(geiger){
 
 	// oscillator
 	var osc = geiger.webaudio.createOscillator();
-	osc.frequency.value = 440 * Math.PI * 2.0;
+	osc.frequency.value = 440 * 2;
 	osc.start(0);
 
 	// amp
@@ -65,7 +65,7 @@ Geiger.prototype.initAudio = function(geiger){
 Geiger.prototype.click = function(){
 	var now = this.webaudio.currentTime;
 	this.amp.gain.cancelScheduledValues( now );
-	this.amp.gain.setValueAtTime(0, now);
-	this.amp.gain.linearRampToValueAtTime(0.2 , now + 0.003);
-	this.amp.gain.linearRampToValueAtTime(0 , now + 0.006);
+	this.amp.gain.setValueAtTime(0.2, now);
+//	this.amp.gain.linearRampToValueAtTime(0.2 , now + 0.03);
+	this.amp.gain.linearRampToValueAtTime(0 , now + 0.08);
 };
