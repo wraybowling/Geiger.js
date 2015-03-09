@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+	<head>
+		<title>geiger.js - Basic Example</title>
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style type="text/css">
+			body {
+				margin: 0px;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<script src="geiger.js"></script>
+		<script>
+
+			var geiger = new Geiger(55);
+
+			var canvas = document.createElement( 'canvas' );
+			canvas.width = 512;
+			canvas.height = 512;
+			document.body.appendChild( canvas );
+
+			var context = canvas.getContext( '2d' );
+			context.fillStyle = 'rgba(127,0,255,0.05)';
+
+			var update = function(){
+
+
+				var time = Date.now() * 0.001;
+
+				context.clearRect( 0, 0, 512, 512 );
+
+				geiger.begin();
+
+				for ( var i = 0; i < 2000; i ++ ) {
+
+					var x = Math.cos( time + i * 0.01 ) * 196 + 256;
+					var y = Math.sin( time + i * 0.01234 ) * 196 + 256;
+
+					context.beginPath();
+					context.arc( x, y, 10, 0, Math.PI * 2, true );
+					context.fill();
+
+				}
+
+				geiger.end();
+
+				requestAnimationFrame(update);
+			};
+
+			requestAnimationFrame(update);
+
+		</script>
+	</body>
+</html>
